@@ -1,0 +1,16 @@
+{
+  "name": "to-do-list-api",
+  "version": "1.0.0",
+  "description": "API for to-do-list",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "author": "Anastasia_Stavrova",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.0",
+    "mysql2": "^3.11.3"
+  }
+}
