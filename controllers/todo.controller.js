@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) {
-        return console.error("Ошибка: " + err.message);
+        return console.error("Ошибка: " + err."Message");
     }
     else{
         console.log("Подключение к серверу MySQL успешно установлено\n");
@@ -21,9 +21,14 @@ exports.findAll = (req, res) => {
     connection.query('SELECT * FROM todos', (error, results, fields) => {
         if (error) throw error;
 
-        res.end(JSON.stringify(results));
+        if(results == ""){
+            res.json({"Message":"There are no todo"});
+        }
+        else{
+            res.end(JSON.stringify(results));
 
-        console.log(JSON.stringify(results));
+            console.log(JSON.stringify(results));
+        }
     });   
 };
 
@@ -63,20 +68,48 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    if (!req.body.description) {
-        return res.status(400).send({
-            message: "Todo description can not be empty"
-        });
-    }
-
-    console.log(req.params.id);
-    console.log(req.body.description);
-    connection.query('UPDATE `todos` SET `name`=?,`description`=? where `id`=?',
-        [req.body.name, req.body.description, req.params.id],
-        function (error, results, fields) {
+    connection.query(`SELECT COUNT(*) AS Count FROM todos WHERE Id=${req.params.id}`, 
+        (error, results, fields) => {
             if (error) throw error;
-            res.end(JSON.stringify(results));
-        });
+
+            const params = req.body;
+
+            if(results[0].Count != 0){
+                if (!req.body.Description && !req.body.IsCompleted) {
+                    return res.status(400).send({
+                        "Message": "Todo description can not be empty"
+                    });
+                }
+
+                let myRequest;
+            
+                if(params.IsCompleted){
+                    if(params.IsCompleted == 0 || params.IsCompleted == 1){
+                        myRequest = `IsCompleted="${params.IsCompleted}"`;
+                    }
+                    else{
+                        return res.status(400).send({
+                            "Message": "Todo isCompleted can be only 0 or 1"
+                        });
+                    }
+                }
+                else{
+                    myRequest = `Description="${params.Description}"`;
+                }  
+
+                connection.query(`UPDATE todos SET ${myRequest} WHERE Id=${req.params.id}`,
+                    (error, results, fields) => {
+                        if (error) throw error;
+        
+                        res.json({"Message": 'The todo was successfully updated'});
+                });  
+            }
+            else{
+                res.json({"Message": 'There is no task with this Id'});
+            }  
+
+            console.log(params);
+    });
 };
 
 exports.delete = (req, res) => {
