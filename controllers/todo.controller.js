@@ -132,3 +132,28 @@ exports.delete = (req, res) => {
             console.log(req.params);     
     });
 };
+
+exports.upload = (req, res) => {
+    const params = req.body;
+
+    if(!params.values){
+        res.json({"Message": "The data cannot be empty"}); 
+    }
+    else{
+        connection.query('DELETE FROM todos', (error, results, fields) => {
+            if (error) throw error;
+    
+            params.forEach(element => {
+                connection.query("INSERT INTO todos SET ? ", element,
+                    (error, results, fields) => {
+                        if (error) throw error;
+                });
+                
+            });
+    
+            res.json({"Message": "A new todos has been uploaded"});   
+        });
+    }
+
+    console.log(params);
+};

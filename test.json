@@ -1,0 +1,24 @@
+[
+    {
+        "Id": 16,
+        "Description": "Помыть посуду",
+        "IsCompleted": "0"
+    },
+    {
+        "Id":7,
+        "Description": "Погулять с собакой",
+        "IsCompleted": "1"
+    },
+    {
+        "Description": "Сходить в магазин",
+        "IsCompleted": "1"
+    },
+    {
+        "Description": "Постирать одежду"
+    },
+    {
+        "Id":17,
+        "Description": "Убраться",
+        "IsCompleted": "0"
+    }
+]

@@ -15,4 +15,7 @@ module.exports = (app) => {
 
     // Удалить задание
     app.delete('/todos/:id', todos.delete);
+
+    // Загрузить новый список дел
+    app.put('/todos', todos.upload);
 }
