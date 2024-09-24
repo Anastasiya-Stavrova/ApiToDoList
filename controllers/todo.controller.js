@@ -22,7 +22,9 @@ exports.findAll = (req, res) => {
         if (error) throw error;
 
         if(results == ""){
-            res.json({"Message":"There are no todo"});
+            return res.status(404).send({
+                "Message":"There are no todos"
+            });
         }
         else{
             res.end(JSON.stringify(results));
@@ -38,7 +40,9 @@ exports.findOne = (req, res) => {
             if (error) throw error;
 
             if(results == ""){
-                res.json({"Message":"There is no task with this Id"});
+                return res.status(404).send({
+                    "Message":"There is no task with this Id"
+                });
             }
             else{
                 res.end(JSON.stringify(results));
@@ -61,7 +65,9 @@ exports.create = (req, res) => {
         (error, results, fields) => {
             if (error) throw error;
 
-            res.json({"Message": 'New todo has been created successfully'});
+            return res.status(201).send({
+                "Message": 'New todo has been created successfully'
+            });
     });
 
     console.log(params);
@@ -101,11 +107,15 @@ exports.update = (req, res) => {
                     (error, results, fields) => {
                         if (error) throw error;
         
-                        res.json({"Message": 'The todo was successfully updated'});
+                        return res.status(201).send({
+                            "Message": 'The todo was successfully updated'
+                        });
                 });  
             }
             else{
-                res.json({"Message": 'There is no task with this Id'});
+                return res.status(404).send({
+                    "Message":"There is no task with this Id"
+                });
             }  
 
             console.log(params);
@@ -122,11 +132,15 @@ exports.delete = (req, res) => {
                     (error, results, fields) => {
                         if (error) throw error;
             
-                        res.json({"Message": 'Todo has been deleted'});   
+                        return res.status(200).send({
+                            "Message": 'Todo has been deleted'
+                        });   
                 });
             }
             else{
-                res.json({"Message": 'There is no task with this Id'});
+                return res.status(404).send({
+                    "Message":"There is no task with this Id"
+                });
             } 
 
             console.log(req.params);     
@@ -137,7 +151,9 @@ exports.upload = (req, res) => {
     const params = req.body;
 
     if(!params.values){
-        res.json({"Message": "The data cannot be empty"}); 
+        return res.status(400).send({
+            "Message": "The data cannot be empty"
+        }); 
     }
     else{
         connection.query('DELETE FROM todos', (error, results, fields) => {
@@ -151,7 +167,9 @@ exports.upload = (req, res) => {
                 
             });
     
-            res.json({"Message": "A new todos has been uploaded"});   
+            return res.status(201).send({
+                "Message": "A new todos has been uploaded"
+            });   
         });
     }
 
