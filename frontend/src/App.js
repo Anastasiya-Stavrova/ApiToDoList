@@ -33,10 +33,6 @@ function App() {
 		}
 	}
 
-	useEffect(() => {
-		showTasks();
-	}, []);
-
     const addTask = async (task) => {
 		try{
             const result = await axios.post('/create/todos', {"Description" : `${task}`});
@@ -49,11 +45,24 @@ function App() {
         } 
     };
 
-    const deleteTask = (id) => {
-        setTasks((prevState) =>
-            prevState.filter((task) => (task.id !== id))
-        );
+    const deleteTask = async (id) => {
+		try{
+            const result = await axios.delete(`/delete/todos/${id}`);
+
+            if(result.status == 200){
+				setTasks((prevState) =>
+					prevState.filter((task) => (task.id !== id))
+				);
+
+				showTasks();
+			}
+        }catch(error){
+            console.log(error);
+        }   
     };
+
+
+
 
     const toggleTask = (id) => {
 		setTasks((prevState) => prevState.map(
@@ -100,7 +109,13 @@ function App() {
 	}
 
 	
-	
+
+
+
+	useEffect(() => {
+		showTasks();
+	}, []);
+
 
     return (
         <div className="container">
