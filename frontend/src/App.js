@@ -1,6 +1,6 @@
-import { useId, useState} from "react";
+import { useEffect, useId, useState} from "react";
+import axios from 'axios';
 
-import useLocalStorage from './utils/useLocalStorage';
 import downloadFile from "./utils/downlodFile";
 
 import UserForm from "./components/UserForm";
@@ -8,7 +8,7 @@ import EditForm from "./components/EditForm";
 import TasksList from "./components/TasksList";
 
 function App() {
-    const [tasks, setTasks] = useLocalStorage('to-do.tasks', []);
+    const [tasks, setTasks] = useState([]);
 
 	const [previousFocusEl, setPreviousFocusEl] = useState(false);
 
@@ -17,6 +17,24 @@ function App() {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const id = useId();
+
+	const showTasks = async () => {
+		try{
+			const {data} = await axios.get('/show/todos');
+			setTasks(data);
+			
+		}catch(error){
+			console.log(error);
+		}
+	}
+
+	useEffect(() => {
+		showTasks();
+		console.log(tasks);
+	}, []);
+
+
+	
 
     const addTask = (task) => {
         setTasks((prevState) => ([...prevState, task]));
@@ -71,6 +89,9 @@ function App() {
 		  uploadTasksList(data);
 		};
 	}
+
+	
+	
 
     return (
         <div className="container">

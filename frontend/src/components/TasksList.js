@@ -5,9 +5,9 @@ import Task from "./Task";
 const TasksList = ({ tasks, deleteTask, toggleTask, enterEditMode }) => {
     return (
         <ul className={styles.tasks}>
-            {tasks.sort((a, b) => b.id - a.id).map((task) => (
+            {tasks.sort((a, b) => b.Id - a.Id).map((task) => (
                 (<Task 
-                    key={task.id} 
+                    key={task.Id} 
                     task={task} 
                     deleteTask={deleteTask} 
                     toggleTask={toggleTask} 
