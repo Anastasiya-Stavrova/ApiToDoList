@@ -12,11 +12,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.json({"Сообщение": "Добро пожаловать на сервер!"});
+    res.json({"Message": "Welcome to the server!"});
 });
 
 require('./routes/todo.routes.js')(app);
 
 app.listen(port, () => {
-    console.log(`Сервер запущен на порту ${port}`);
+    console.log(`The server is running on the port ${port}`);
 });

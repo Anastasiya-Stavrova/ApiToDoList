@@ -2,20 +2,20 @@ module.exports = (app) => {
     const todos = require('../controllers/todo.controller.js');
 
     // Просмотр всех заданий
-    app.get('/todos', todos.findAll);
+    app.get('/show/todos', todos.showAll);
 
     // Просмотр конкретного задания
-    app.get('/todos/:id', todos.findOne);
+    app.get('/show/todos/:id', todos.showOne);
    
     // Создать новое задание
-    app.post('/todos', todos.create);
+    app.post('/create/todos', todos.create);
 
     // Изменить задание
-    app.put('/todos/:id', todos.update);
+    app.put('/update/todos/:id', todos.update);
 
     // Удалить задание
-    app.delete('/todos/:id', todos.delete);
+    app.delete('/delete/todos/:id', todos.delete);
 
     // Загрузить новый список дел
-    app.put('/todos', todos.upload);
+    app.put('/upload/todos', todos.upload);
 }
