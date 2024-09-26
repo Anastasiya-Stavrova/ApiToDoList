@@ -7,8 +7,11 @@ import UserForm from "./components/UserForm";
 import EditForm from "./components/EditForm";
 import TasksList from "./components/TasksList";
 
+
+
 function App() {
     const [tasks, setTasks] = useState([]);
+
 
 	const [previousFocusEl, setPreviousFocusEl] = useState(false);
 
@@ -17,6 +20,8 @@ function App() {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const id = useId();
+
+
 
 	const showTasks = async () => {
 		try{
@@ -30,14 +35,18 @@ function App() {
 
 	useEffect(() => {
 		showTasks();
-		console.log(tasks);
 	}, []);
 
+    const addTask = async (task) => {
+		try{
+            const result = await axios.post('/create/todos', {"Description" : `${task}`});
 
-	
-
-    const addTask = (task) => {
-        setTasks((prevState) => ([...prevState, task]));
+            if(result.status == 201){
+				showTasks();
+			}
+        }catch(error){
+            console.log(error);
+        } 
     };
 
     const deleteTask = (id) => {
@@ -136,3 +145,6 @@ function App() {
 }
 
 export default App;
+
+
+

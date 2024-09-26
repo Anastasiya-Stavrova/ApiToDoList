@@ -1,18 +1,15 @@
 import { useState } from "react";
+import axios from 'axios';
 
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 
 const UserForm = ({addTask}) => {
-    const [task, setTask] = useState("");
-
-    const formSubmitHundler = (event) => {
+    const [task, setTask] = useState('');
+  
+    const formSubmitHundler = async (event) => {
         event.preventDefault(); /*Убираем сброс страницы*/
 
-        addTask({
-            name: task,
-            checked: false,
-            id: Date.now(),
-        });
+        addTask(task);
 
         setTask(""); /*Очищаем поле ввода*/
     };
