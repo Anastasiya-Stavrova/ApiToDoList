@@ -3,11 +3,11 @@ import { useState } from "react";
 import { CheckIcon} from '@heroicons/react/24/solid';
 
 const EditForm = ({editedTask, updateTask}) => {
-    const [updatedTask, setUpdatedTask] = useState(editedTask.name);
+    const [updatedTask, setUpdatedTask] = useState(editedTask.Description);
 
     const formSubmitHundler = (event) => {
         event.preventDefault(); /*Убираем сброс страницы*/
-        updateTask({...editedTask, name: updatedTask});
+        updateTask({...editedTask, "Description" : `${updatedTask}`});
     };
 
     return (

@@ -19,6 +19,17 @@ function App() {
 
 	const id = useId();
 
+	const enterEditMode = (task) => {
+		setEditedTask(() => (task));
+		setIsEditing(() => (true));
+		setPreviousFocusEl(document.activeElement);
+	}
+
+	const closeEditMode = () => {
+		setIsEditing(false);
+		previousFocusEl.focus();
+	}
+
 	const showTasks = async () => {
 		try{
 			const {data} = await axios.get('/show/todos');
@@ -68,26 +79,24 @@ function App() {
         }  
     }
 
+	const updateTask = async (updatedTask) => {
+		try{
+            const result = await axios.put(`/update/todos/${updatedTask.Id}`, 
+				{"Description" : `${updatedTask.Description}`});
 
+            if(result.status == 201){
+				showTasks();	
+			}
+        }catch(error){
+            console.log(error);
+        }  
 
-
-
-	const updateTask = (updatedTask) => {
-		setTasks((prevState) => prevState.map(
-			(task) => (task.id === updatedTask.id ? {...task, name: updatedTask.name} : task)));
-		closeEditMode();
+		closeEditMode(); 
     }
 
-	const closeEditMode = () => {
-		setIsEditing(false);
-		previousFocusEl.focus();
-	}
+	
 
-	const enterEditMode = (task) => {
-		setEditedTask(task);
-		setIsEditing(true);
-		setPreviousFocusEl(document.activeElement);
-	}
+	
 
 	const deleteTasksList = () => {
 		setTasks(() => ([]));
