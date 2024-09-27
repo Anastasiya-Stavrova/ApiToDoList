@@ -56,10 +56,6 @@ function App() {
             const result = await axios.delete(`/delete/todos/${id}`);
 
             if(result.status == 200){
-				setTasks((prevState) =>
-					prevState.filter((task) => (task.id !== id))
-				);
-
 				showTasks();
 			}
         }catch(error){
@@ -94,21 +90,28 @@ function App() {
 		closeEditMode(); 
     }
 
-	
+	const deleteTasksList = async () => {
+		try{
+            const result = await axios.delete(`/delete/todos`);
 
-	
-
-	const deleteTasksList = () => {
-		setTasks(() => ([]));
-		
-		showTasks();
+            if(result.status == 200){
+				showTasks();
+			}
+        }catch(error){
+            console.log(error);
+        }   
 	}
 
-	const uploadTasksList = (data) => {
-		data.forEach(element => {
-			addTask(element);
-			console.log(element);
-		});
+	const uploadTasksList = async (data) => {
+		try{
+            const result = await axios.put(`/upload/todos`, data);
+
+            if(result.status == 201){
+				showTasks();	
+			}
+        }catch(error){
+            console.log(error);
+        }  
 	}
 
 	const uploadFile = (e) => {
@@ -119,16 +122,9 @@ function App() {
 		  const data = JSON.parse(e.target.result);
 
 		  deleteTasksList();
-		  console.log(data)
-		  /* uploadTasksList(data); */
+		  uploadTasksList(data);
 		};
 	}
-
-	
-
-	
-
-
 
 	useEffect(() => {
 		showTasks();

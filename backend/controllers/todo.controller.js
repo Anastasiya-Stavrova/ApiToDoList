@@ -125,6 +125,17 @@ exports.delete = (req, res) => {
     });
 };
 
+exports.deleteAll = (req, res) => {
+    connection.query(`DELETE FROM todos`, 
+        (error, results) => {
+        if (error) throw error;
+
+        return res.status(200).send({
+            "Message":"All todos have been deleted"
+        });  
+    });
+};
+
 exports.upload = (req, res) => {
     const params = req.body;
 
