@@ -8,8 +8,8 @@ const Task = ({ task, deleteTask, toggleTask, enterEditMode }) => {
     const [isChecked, setIsChecked] = useState(task.IsCompleted == 0 ? false : true);
 
     const checkboxChangeHandler = () => {
-        setIsChecked(!isChecked);
-        toggleTask(task.Id);
+        setIsChecked(() => (isChecked == false ?  true : false));
+        toggleTask(task.Id, {"IsCompleted" : `${task.IsCompleted == 0 ? 1 : 0}`} );
     };
 
     return (

@@ -9,7 +9,7 @@ const UserForm = ({addTask}) => {
     const formSubmitHundler = async (event) => {
         event.preventDefault(); /*Убираем сброс страницы*/
 
-        addTask(task);
+        addTask({"Description" : `${task}`});
 
         setTask(""); /*Очищаем поле ввода*/
     };

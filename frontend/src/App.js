@@ -8,10 +8,8 @@ import EditForm from "./components/EditForm";
 import TasksList from "./components/TasksList";
 
 
-
 function App() {
     const [tasks, setTasks] = useState([]);
-
 
 	const [previousFocusEl, setPreviousFocusEl] = useState(false);
 
@@ -21,13 +19,10 @@ function App() {
 
 	const id = useId();
 
-
-
 	const showTasks = async () => {
 		try{
 			const {data} = await axios.get('/show/todos');
-			setTasks(data);
-			
+			setTasks(() => (data));
 		}catch(error){
 			console.log(error);
 		}
@@ -35,7 +30,7 @@ function App() {
 
     const addTask = async (task) => {
 		try{
-            const result = await axios.post('/create/todos', {"Description" : `${task}`});
+            const result = await axios.post('/create/todos', task);
 
             if(result.status == 201){
 				showTasks();
@@ -61,13 +56,21 @@ function App() {
         }   
     };
 
+    const toggleTask = async (id, task) => {
+		try{
+            const result = await axios.put(`/update/todos/${id}`, task);
 
-
-
-    const toggleTask = (id) => {
-		setTasks((prevState) => prevState.map(
-			(task) => (task.id === id ? {...task, checked: !task.checked} : task)));
+            if(result.status == 201){
+				showTasks();	
+			}
+        }catch(error){
+            console.log(error);
+        }  
     }
+
+
+
+
 
 	const updateTask = (updatedTask) => {
 		setTasks((prevState) => prevState.map(
@@ -88,11 +91,14 @@ function App() {
 
 	const deleteTasksList = () => {
 		setTasks(() => ([]));
+		
+		showTasks();
 	}
 
 	const uploadTasksList = (data) => {
 		data.forEach(element => {
 			addTask(element);
+			console.log(element);
 		});
 	}
 
@@ -104,9 +110,12 @@ function App() {
 		  const data = JSON.parse(e.target.result);
 
 		  deleteTasksList();
-		  uploadTasksList(data);
+		  console.log(data)
+		  /* uploadTasksList(data); */
 		};
 	}
+
+	
 
 	
 
