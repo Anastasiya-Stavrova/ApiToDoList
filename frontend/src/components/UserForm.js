@@ -1,47 +1,42 @@
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
-import { PlusCircleIcon } from '@heroicons/react/24/solid';
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
-const UserForm = ({addTask}) => {
-    const [task, setTask] = useState('');
-  
-    const formSubmitHundler = async (event) => {
-        event.preventDefault(); /*Убираем сброс страницы*/
+const UserForm = ({ addTask }) => {
+  const [task, setTask] = useState("");
 
-        addTask({"Description" : `${task}`});
+  const formSubmitHundler = async (event) => {
+    event.preventDefault(); /*Убираем сброс страницы*/
 
-        setTask(""); /*Очищаем поле ввода*/
-    };
+    addTask({ Description: `${task}` });
 
-    return (
-        <form 
-            className="toDo" 
-            onSubmit={formSubmitHundler}
-        >
-            <div className="wrapper">
-                <input
-                    className="input"
-                    type="text"
-                    id="task"
-                    value={task}
-                    onInput={(text) => setTask(text.target.value)}
-                    required /*Поле нельзя оставить пустым*/
-                    autoFocus /*Автоматически устанавливает фокус в поле формы*/
-                    maxLength={80} /*Максимальное кол-во символов*/
-                    placeholder="Ввести задачу"
-                />
-                <label 
-                    className="label" htmlFor="task">Ввести задачу</label>
-            </div>
-            <button 
-                className="btn" 
-                aria-label="Add Task" 
-                type="submit">
-                    <PlusCircleIcon/>
-            </button>
-        </form>
-    );
+    setTask(""); /*Очищаем поле ввода*/
+  };
+
+  return (
+    <form className="toDo" onSubmit={formSubmitHundler}>
+      <div className="wrapper">
+        <input
+          className="input"
+          type="text"
+          id="task"
+          value={task}
+          onInput={(text) => setTask(text.target.value)}
+          required /*Поле нельзя оставить пустым*/
+          autoFocus /*Автоматически устанавливает фокус в поле формы*/
+          maxLength={80} /*Максимальное кол-во символов*/
+          placeholder="Ввести задачу"
+        />
+        <label className="label" htmlFor="task">
+          Ввести задачу
+        </label>
+      </div>
+      <button className="btn" aria-label="Add Task" type="submit">
+        <PlusCircleIcon />
+      </button>
+    </form>
+  );
 };
 
 export default UserForm;

@@ -1,24 +1,24 @@
 module.exports = (app) => {
-    const todos = require('../controllers/todo.controller.js');
+  const todos = require("../controllers/todo.controller.js");
 
-    // Просмотр всех заданий
-    app.get('/show/todos', todos.showAll);
+  // Просмотр всех заданий
+  app.get("/show/todos", todos.showAll);
 
-    // Просмотр конкретного задания
-    app.get('/show/todos/:id', todos.showOne);
-   
-    // Создать новое задание
-    app.post('/create/todos', todos.create);
+  // Просмотр конкретного задания
+  app.get("/show/todos/:id", todos.showOne);
 
-    // Изменить задание
-    app.put('/update/todos/:id', todos.update);
+  // Создать новое задание
+  app.post("/create/todos", todos.create);
 
-    // Удалить задание
-    app.delete('/delete/todos/:id', todos.delete);
+  // Изменить задание
+  app.put("/update/todos/:id", todos.update);
 
-    // Удалить все задания
-    app.delete('/delete/todos', todos.deleteAll);
+  // Удалить задание
+  app.delete("/delete/todos/:id", todos.delete);
 
-    // Загрузить новый список дел
-    app.put('/upload/todos', todos.upload);
-}
+  // Удалить все задания
+  app.delete("/delete/todos", todos.deleteAll);
+
+  // Загрузить новый список дел
+  app.put("/upload/todos", todos.upload);
+};
